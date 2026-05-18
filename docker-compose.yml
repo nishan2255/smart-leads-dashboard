@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # ─── MongoDB ──────────────────────────────────────────────────────────────
+  mongodb:
+    image: mongo:6
+    container_name: smart-leads-mongodb
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: smart-leads
+    networks:
+      - smart-leads-network
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Backend Server ───────────────────────────────────────────────────────
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: smart-leads-server
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGODB_URI: mongodb://mongodb:27017/smart-leads
+      JWT_SECRET: ${JWT_SECRET:-supersecretjwtkey_change_in_production_please}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      CLIENT_URL: http://localhost:3000
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - smart-leads-network
+
+  # ─── Frontend Client ──────────────────────────────────────────────────────
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: smart-leads-client
+    restart: unless-stopped
+    ports:
+      - '3000:80'
+    depends_on:
+      - server
+    networks:
+      - smart-leads-network
+
+# ─── Named Volumes ────────────────────────────────────────────────────────────
+volumes:
+  mongodb_data:
+    name: smart-leads-mongodb-data
+
+# ─── Networks ─────────────────────────────────────────────────────────────────
+networks:
+  smart-leads-network:
+    name: smart-leads-network
+    driver: bridge
