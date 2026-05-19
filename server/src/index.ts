@@ -11,10 +11,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ─── Security Middleware ──────────────────────────────────────────────────────
-app.use(helmet());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      process.env.CLIENT_URL || '',
+    ].filter(Boolean),
     credentials: true,
   })
 );
