@@ -2,6 +2,16 @@
 
 A full-stack **Lead Management Dashboard** built with the MERN stack and TypeScript. Manage, track, and convert leads efficiently with a modern, responsive UI, role-based access control, real-time search & filters, and CSV export.
 
+
+## 🚀 Live Demo
+
+| Service | URL |
+|---------|-----|
+| 🌐 Frontend (Live App) | https://smart-leads-dashboard-azure.vercel.app |
+| 📦 GitHub Repository | https://github.com/nishan2255/smart-leads-dashboard |
+
+
+
 ---
 
 ## ✨ Features
