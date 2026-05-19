@@ -10,6 +10,16 @@ A full-stack **Lead Management Dashboard** built with the MERN stack and TypeScr
 | 🌐 Frontend (Live App) | https://smart-leads-dashboard-azure.vercel.app |
 | 📦 GitHub Repository | https://github.com/nishan2255/smart-leads-dashboard |
 
+### Test Credentials
+**Admin Account:**
+- Email: nahsin3@gmail.com
+- Password: nahsin3
+- Role: Admin (full access)
+
+**Sales Account:**
+- Email: sales@test.com  
+- Password: password123
+- Role: Sales (view only)
 
 
 ---
